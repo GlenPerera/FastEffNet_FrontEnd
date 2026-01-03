@@ -54,7 +54,10 @@ export default function Home() {
       </div>
 
       <div>
-        <Button variant="primary" size="sm" radius="md">Proceed to Classify</Button>
+        <Link href="/dashboard">
+          <Button variant="primary" size="sm" radius="md">Proceed to Classify</Button>
+        </Link>
+        
       </div>
 
       
