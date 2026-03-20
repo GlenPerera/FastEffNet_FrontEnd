@@ -10,6 +10,7 @@ export default function Hero() {
         .hero-wrap {
           font-family: 'DM Sans', sans-serif;
           width: 100%; padding: 0;
+          margin-top: 24px;
         }
         .hero-card {
           position: relative; border-radius: 24px; overflow: hidden;
