@@ -95,7 +95,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 // Backup Library Tab Component
 function BackupLibraryTab() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+  const API_URL = "https://fasteffnetbackend-production.up.railway.app";
   // Added a fallback for BASE_DIR to prevent crash
   const BASE_DIR = "base_training_data";
   const [data, setData] = useState<
