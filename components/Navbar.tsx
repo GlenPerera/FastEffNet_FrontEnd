@@ -103,6 +103,7 @@ export default function NavBar() {
           <div className="nav-links">
             <SignedOut>
               <Link href="/login" className="nav-login-btn">
+                Sign In
                 <svg
                   width="14"
                   height="14"
@@ -110,6 +111,7 @@ export default function NavBar() {
                   stroke="white"
                   strokeWidth="2"
                   viewBox="0 0 24 24"
+                  style={{ transform: "scaleX(-1)" }}
                 >
                   <path
                     strokeLinecap="round"
@@ -117,7 +119,6 @@ export default function NavBar() {
                     d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                   />
                 </svg>
-                Sign In
               </Link>
             </SignedOut>
             <SignedIn>
