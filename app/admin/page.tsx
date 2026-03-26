@@ -541,7 +541,9 @@ export default function AdminDashboard() {
     text: string;
   } | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+  const API_URL =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://fasteffnetbackend-production.up.railway.app";
   const TARGET_PER_CLASS = 20;
 
   const fetchStatus = async () => {

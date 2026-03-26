@@ -70,10 +70,13 @@ export default function DashboardPage() {
     const formData = new FormData();
     formData.append("file", selectedFile);
     try {
-      const res = await fetch("http://127.0.0.1:8000/predict", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://fasteffnetbackend-production.up.railway.app/predict",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
       if (!res.ok) throw new Error();
       setResult(await res.json());
     } catch {
@@ -102,10 +105,13 @@ export default function DashboardPage() {
     formData.append("correct_stage_id", finalStageId.toString());
     formData.append("original_stage_id", result.stage_id.toString());
     try {
-      const res = await fetch("http://127.0.0.1:8000/feedback", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://fasteffnetbackend-production.up.railway.app/feedback",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
       setFeedbackMsg(
         res.ok
           ? "DONE:Feedback recorded. This image has been saved to improve the AI model."
