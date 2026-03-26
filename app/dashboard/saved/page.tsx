@@ -78,11 +78,38 @@ function formatDate(iso: string | null) {
   );
 }
 
-function ImageCard({ record }: { record: SavedRecord }) {
+function ImageCard({
+  record,
+  onDelete,
+}: {
+  record: SavedRecord;
+  onDelete: (id: number) => void;
+}) {
   const [imgError, setImgError] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const stage = STAGE_INFO[record.corrected_stage_id] ?? STAGE_INFO[0];
   const imgSrc = `${API_URL}/image-file?path=${encodeURIComponent(record.file_path)}`;
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!confirm("Delete this image? This cannot be undone.")) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`${API_URL}/feedback/${record.id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        onDelete(record.id);
+      } else {
+        alert("Failed to delete. Please try again.");
+      }
+    } catch {
+      alert("Server error during deletion.");
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <>
@@ -168,6 +195,13 @@ function ImageCard({ record }: { record: SavedRecord }) {
 
           {/* Timestamp */}
           <div className="img-timestamp">{formatDate(record.timestamp)}</div>
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="delete-btn"
+          >
+            {deleting ? "Deleting…" : "🗑 Delete"}
+          </button>
         </div>
       </div>
 
@@ -239,6 +273,14 @@ function ImageCard({ record }: { record: SavedRecord }) {
                 <span className="lb-key">File</span>
                 <span className="lb-val lb-filename">{record.filename}</span>
               </div>
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="delete-btn"
+                style={{ marginTop: 8 }}
+              >
+                {deleting ? "Deleting…" : "🗑 Delete this image"}
+              </button>
             </div>
           </div>
         </div>
@@ -287,6 +329,15 @@ export default function SavedImagesPage() {
   const totalRetrained =
     data?.records.filter((r) => r.is_retrained).length ?? 0;
   const totalPending = data?.records.filter((r) => !r.is_retrained).length ?? 0;
+
+  const handleDelete = (id: number) => {
+    if (!data) return;
+    setData({
+      ...data,
+      total: data.total - 1,
+      records: data.records.filter((r) => r.id !== id),
+    });
+  };
 
   return (
     <>
@@ -540,6 +591,24 @@ export default function SavedImagesPage() {
           .sv-stats { grid-template-columns: 1fr; }
           .img-grid  { grid-template-columns: 1fr; }
         }
+
+        .delete-btn {
+          width: 100%; margin-top: 8px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 12px; font-weight: 600;
+          color: #dc2626; background: #fff1f2;
+          border: 1px solid #fecdd3; border-radius: 8px;
+          padding: 7px 12px; cursor: pointer;
+          transition: background .15s, transform .15s;
+          display: flex; align-items: center;
+          justify-content: center; gap: 5px;
+        }
+
+        .delete-btn:hover:not(:disabled) {
+          background: #fee2e2; transform: translateY(-1px);
+        }
+
+        .delete-btn:disabled { opacity: .5; cursor: not-allowed; }
       `}</style>
 
       <div className="sv">
@@ -668,7 +737,11 @@ export default function SavedImagesPage() {
         {!loading && !error && data && data.records.length > 0 && (
           <div className="img-grid">
             {data.records.map((record) => (
-              <ImageCard key={record.id} record={record} />
+              <ImageCard
+                key={record.id}
+                record={record}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
         )}

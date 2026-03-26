@@ -111,6 +111,9 @@ export default function DashboardPage() {
           ? "DONE:Feedback recorded. This image has been saved to improve the AI model."
           : "WARN:Feedback could not be saved. Please try again.",
       );
+      setTimeout(() => {
+        resetAll();
+      }, 2500);
     } catch {
       setFeedbackMsg("WARN:Server error during feedback submission.");
     } finally {
