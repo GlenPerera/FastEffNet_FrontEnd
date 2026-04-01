@@ -2,9 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://fasteffnetbackend-production.up.railway.app";
+const API_URL = "http://localhost:8000";
 
 interface SavedRecord {
   id: number;

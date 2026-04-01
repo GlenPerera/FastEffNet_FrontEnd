@@ -95,7 +95,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 // Backup Library Tab Component
 function BackupLibraryTab() {
-  const API_URL = "https://fasteffnetbackend-production.up.railway.app";
+  const API_URL = "http://localhost:8000";
   // Added a fallback for BASE_DIR to prevent crash
   const BASE_DIR = "base_training_data";
   const [data, setData] = useState<
@@ -541,9 +541,7 @@ export default function AdminDashboard() {
     text: string;
   } | null>(null);
 
-  const API_URL =
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://fasteffnetbackend-production.up.railway.app";
+  const API_URL = "http://localhost:8000";
   const TARGET_PER_CLASS = 20;
 
   const fetchStatus = async () => {
